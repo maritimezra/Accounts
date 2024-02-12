@@ -14,3 +14,15 @@ venv/
 
 # Ignore sensitive or environment-specific information
 .env
+# Ignore Django files
+db.sqlite3
+*.log
+
+# Ignore React files
+node_modules/
+build/
+coverage/
+*.local-*
+*.map
+yarn-error.log
+
