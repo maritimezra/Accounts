@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "api.apps.ApiConfig",
-    # "rest_framework",
+    # "api",
     "accounts",
+    # "crispy_forms",
+    # "crispy_bootstrap",
 ]
 
 MIDDLEWARE = [
@@ -77,9 +78,17 @@ WSGI_APPLICATION = "funhub.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "d40gsqk8mep7gf",
+        "USER": "ulyrqidgomodnx",
+        "PASSWORD": "e837ad331ee6f5657c18ed88e6a2abc9bd3a4cc1b2f24b623394a0fd86eece73",
+        "HOST": "ec2-34-236-199-229.compute-1.amazonaws.com",
+        "PORT": "5432",
     }
 }
 
