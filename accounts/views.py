@@ -13,9 +13,8 @@ def sign_up(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # log in the user immediately
             login(request, user)
-            return redirect("/home")
+            return redirect("/login")
 
     else:
         form = RegisterForm()
