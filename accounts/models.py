@@ -27,3 +27,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name or self.email.split("@")[0]
+
+    def get_user_with_id(id):
+        return User.objects.filter(id=id).first()
+
+    def get_user_with_email(email):
+        return User.objects.filter(email=email).first()
+
+    def get_user_with_first_name(first_name):
+        return User.objects.filter(first_name=first_name).first()
+
+    def get_user_with_last_name(last_name):
+        return User.objects.filter(last_name=last_name).first()

@@ -5,7 +5,7 @@ from . import models
 
 
 @strawberry_django.type(models.User)
-class User:
+class UserType:
     id: auto
     email: str
     first_name: str
