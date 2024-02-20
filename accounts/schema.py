@@ -1,7 +1,8 @@
 import strawberry
-import strawberry_django
 from typing import List
 from strawberry_django.optimizer import DjangoOptimizerExtension
+from strawberry_jwt_auth.extension import JWTExtension
+from strawberry_jwt_auth.decorator import login_required
 
 from .models import User
 from .types import UserType
@@ -33,9 +34,11 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    def create_user(self, email: str, first_name: str, last_name: str) -> UserType:
+    def create_user(
+        self, email: str, password: str, first_name: str, last_name: str
+    ) -> UserType:
         user = User.objects.create(
-            email=email, first_name=first_name, last_name=last_name
+            email=email, password=password, first_name=first_name, last_name=last_name
         )
         return user
 
@@ -48,11 +51,45 @@ class Mutation:
         user.save()
         return user
 
+    @strawberry.mutation
+    def login(self, info, email: str, password: str) -> bool:
+        user = User.objects.get(email=email)
+
+        if user.check_password(password):
+            setattr(info.context, "userID", user.id)
+            setattr(info.context.request, "issueNewTokens", True)
+            setattr(info.context.request, "clientID", user.id)
+            return True
+        else:
+            return False
+
+    @strawberry.mutation
+    def logout(self, info) -> bool:
+        user = info.context.request.user
+
+        if user:
+            setattr(info.context.request, "revokeTokens", True)
+            return True
+        else:
+            return False
+
+    @strawberry.mutation
+    @login_required
+    def change_password(self, info, old_password: str, new_password: str) -> bool:
+        user = info.context.request.user
+        if user.check_password(old_password):
+            user.set_password(new_password)
+            user.save()
+            return True
+        else:
+            return False
+
 
 schema = strawberry.Schema(
     query=Query,
     mutation=Mutation,
     extensions=[
         DjangoOptimizerExtension,
+        JWTExtension,
     ],
 )

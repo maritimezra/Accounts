@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "strawberry.django",
+    "strawberry_jwt_auth",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "boostrap5"
