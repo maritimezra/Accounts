@@ -10,6 +10,12 @@ from .types import UserType
 
 @strawberry.type
 class Query:
+
+    @strawberry.field
+    # @login_required  # Uncomment to protect the field with authentication
+    def me(self, info) -> UserType:
+        return info.context.request.user
+
     @strawberry.field
     def get_users(self) -> List[UserType]:
         return User.objects.all()
@@ -30,24 +36,48 @@ class Query:
     def get_user_with_last_name(self, last_name: str) -> List[UserType]:
         return User.objects.filter(last_name=last_name)
 
+    @strawberry.field
+    def get_user_with_phone_number(self, phone_number: str) -> List[UserType]:
+        return User.objects.filter(phone_number__iexact=str(phone_number))
+
 
 @strawberry.type
 class Mutation:
     @strawberry.mutation
     def create_user(
-        self, email: str, password: str, first_name: str, last_name: str
+        self,
+        email: str,
+        password: str,
+        first_name: str,
+        last_name: str,
+        gender: str,
+        phone_number: str,
     ) -> UserType:
         user = User.objects.create(
-            email=email, password=password, first_name=first_name, last_name=last_name
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            gender=gender,
+            phone_number=phone_number,
         )
         return user
 
     @strawberry.mutation
-    def update_user(self, email: str, first_name: str, last_name: str) -> UserType:
+    def update_user(
+        self,
+        email: str,
+        first_name: str,
+        last_name: str,
+        gender: str,
+        phone_number: str,
+    ) -> UserType:
         user = User.objects.get(email=email)
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
+        user.gender = gender
+        user.phone_number = phone_number
         user.save()
         return user
 

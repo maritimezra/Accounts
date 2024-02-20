@@ -2,8 +2,16 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 from .managers import UserManager
+
+
+class Gender(models.TextChoices):
+    MALE = "M"
+    FEMALE = "F"
+    NONBINARY = "N"
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -13,6 +21,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    gender = models.CharField(max_length=1, choices=Gender, blank=True)
+    phone_number = PhoneNumberField(blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -39,3 +49,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_user_with_last_name(last_name):
         return User.objects.filter(last_name=last_name).first()
+
+    def get_user_with_phone_number(phone_number):
+        return User.objects.filter(phone_number=phone_number).first()

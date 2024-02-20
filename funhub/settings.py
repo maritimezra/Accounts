@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "strawberry.django",
     "strawberry_jwt_auth",
+    "phonenumber_field",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "boostrap5"

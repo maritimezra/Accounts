@@ -13,3 +13,5 @@ class UserType:
     is_staff: bool
     is_active: bool
     date_joined: str
+    gender: str
+    phone_number: str
