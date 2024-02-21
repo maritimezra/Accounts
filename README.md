@@ -15,7 +15,7 @@ This Django web application, is a backend project focusing on the Base User Mode
 ## Setup Instructions
 1. Clone the repository:
    ```
-   git clone [https://github.com/your-account/accounts.git](https://github.com/maritimezra/Accounts.git)
+   git clone https://github.com/maritimezra/Accounts.git
    ```
 2. Install dependencies:
    ```
