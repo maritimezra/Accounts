@@ -1,11 +1,14 @@
 # Accounts
 
-This Django web application, is a backend project focusing on the Base User Model. The project showcases user authentication and API development using GraphQL with the help of Strawberry GraphQL and JWT authentication.
+This Django web application is a backend project focusing on the Base User Model. The project showcases user authentication and API development using GraphQL with the help of Strawberry GraphQL and JWT authentication.
 
 ## Features
 - Customized Base User Model
 - User authentication using JWT
 - GraphQL APIs for interacting with user data
+- User management
+- Access control
+- Permission management
 
 ## Technologies Used
 - Django
@@ -14,21 +17,25 @@ This Django web application, is a backend project focusing on the Base User Mode
 
 ## Setup Instructions
 1. Clone the repository:
-   ```
-   git clone https://github.com/maritimezra/Accounts.git
-   ```
+git clone https://github.com/maritimezra/Accounts.git
+
+markdown
+Copy
 2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
+pip install -r requirements.txt
+
+markdown
+Copy
 3. Run migrations:
-   ```
-   python manage.py migrate
-   ```
+python manage.py migrate
+
+markdown
+Copy
 4. Start the development server:
-   ```
-   python manage.py runserver
-   ```
+python manage.py runserver
+
+shell
+Copy
 
 ## Usage
 - Access the GraphQL endpoint to interact with the APIs.
