@@ -12,7 +12,7 @@ from .types import UserType
 class Query:
 
     @strawberry.field
-    # @login_required  # Uncomment to protect the field with authentication
+    @login_required  
     def me(self, info) -> UserType:
         return info.context.request.user
 
