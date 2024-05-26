@@ -1,11 +1,16 @@
 import strawberry
+import jwt
 from typing import List
 from strawberry_django.optimizer import DjangoOptimizerExtension
 from strawberry_jwt_auth.extension import JWTExtension
 from strawberry_jwt_auth.decorator import login_required
 
 from .models import User
-from .types import UserType
+from .types import UserType, LoginResponse
+
+from django.contrib.auth import authenticate
+from django.conf import settings
+
 
 
 @strawberry.type
@@ -82,16 +87,26 @@ class Mutation:
         return user
 
     @strawberry.mutation
-    def login(self, info, email: str, password: str) -> bool:
-        user = User.objects.get(email=email)
+    def login(self, info, email: str, password: str) -> LoginResponse:
+        # Authenticate user
+        user = authenticate(email=email, password=password)
 
-        if user.check_password(password):
-            setattr(info.context, "userID", user.id)
-            setattr(info.context.request, "issueNewTokens", True)
-            setattr(info.context.request, "clientID", user.id)
-            return True
+        if user is not None and user.is_authenticated:
+            print(f"Authenticated user: {user.email}")
+            setattr(info.context.request, "user", user)
+
+            # Generate a JWT token with user information
+            token_payload = {
+                "user_id": user.id,
+                "email": user.email,
+            }
+            token = jwt.encode(token_payload, settings.SECRET_KEY, algorithm="HS256")
+
+            return LoginResponse(success=True, token=token)
         else:
-            return False
+            # Return error response if authentication fails
+            print("Authentication failed")
+            return LoginResponse(success=False, token=None)
 
     @strawberry.mutation
     def logout(self, info) -> bool:

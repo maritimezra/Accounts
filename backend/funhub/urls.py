@@ -9,7 +9,5 @@ from accounts.schema import schema
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("accounts.urls")),
-    path("", include("django.contrib.auth.urls")),
-    path("graphql", strawberry_auth_view(GraphQLView.as_view(schema=schema))),
+    path("graphql/", strawberry_auth_view(GraphQLView.as_view(schema=schema))),
 ]

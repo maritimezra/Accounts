@@ -1,4 +1,5 @@
 import strawberry_django
+import strawberry
 from strawberry import auto
 
 from . import models
@@ -15,3 +16,8 @@ class UserType:
     date_joined: str
     gender: str
     phone_number: str
+
+@strawberry.type
+class LoginResponse:
+    success: bool
+    token: str
