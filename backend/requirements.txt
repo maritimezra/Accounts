@@ -1,6 +1,7 @@
 asgiref==3.7.2
 crispy-bootstrap5==2024.2
 Django==5.0.3
+django-cors-headers==4.3.1
 django-crispy-bootstrap==0.1.1.1
 django-crispy-forms==2.1
 django-phonenumber-field==7.3.0
@@ -12,5 +13,5 @@ six==1.16.0
 sqlparse==0.4.4
 strawberry-graphql==0.220.0
 strawberry-graphql-django==0.33.0
-strawberry-jwt-auth==0.2.3
+strawberry_jwt_auth==0.2.3
 typing_extensions==4.10.0

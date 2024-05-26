@@ -3,7 +3,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = "django-insecure-i%q^2$=0g@8)m4kra=q5*#ned_fdt)77=p=quh95fuq$=j%z0u"
+SECRET_KEY = "21041998"
 
 DEBUG = True
 
@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "strawberry.django",
     "strawberry_jwt_auth",
     "phonenumber_field",
+    "corsheaders",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "boostrap5"
@@ -100,5 +101,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
 
-LOGIN_REDIRECT_URL = "/home"
-LOGOUT_REDIRECT_URL = "/login"
+AUTHENTICATION_BACKENDS = [
+    "strawberry_jwt_auth.utils.authentication.AuthenticationBackend"
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://localhost:8000",
+]

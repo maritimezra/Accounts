@@ -15,7 +15,6 @@ class UserType:
     is_active: bool
     date_joined: str
     gender: str
-    phone_number: str
 
 @strawberry.type
 class LoginResponse:
