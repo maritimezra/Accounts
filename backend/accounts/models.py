@@ -22,7 +22,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
     gender = models.CharField(max_length=1, choices=Gender, blank=True)
-    # phone_number = PhoneNumberField(blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

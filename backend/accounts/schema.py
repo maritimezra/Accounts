@@ -56,7 +56,6 @@ class Mutation:
         first_name: str,
         last_name: str,
         gender: str,
-        phone_number: str,
     ) -> UserType:
         user = User.objects.create(
             email=email,
@@ -64,7 +63,6 @@ class Mutation:
             first_name=first_name,
             last_name=last_name,
             gender=gender,
-            phone_number=phone_number,
         )
         return user
 
