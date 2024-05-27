@@ -73,14 +73,12 @@ class Mutation:
         first_name: str,
         last_name: str,
         gender: str,
-        phone_number: str,
     ) -> UserType:
         user = User.objects.get(email=email)
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
         user.gender = gender
-        user.phone_number = phone_number
         user.save()
         return user
 
