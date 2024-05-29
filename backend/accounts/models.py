@@ -14,6 +14,7 @@ class Gender(models.TextChoices):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=256, unique=True)
     email = models.EmailField(_("email address"), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

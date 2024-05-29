@@ -24,6 +24,38 @@ class Query:
     def get_users(self) -> List[UserType]:
         return User.objects.all()
 
+    # @strawberry.field
+    # def get_username(self, info) -> str:
+    #     return info.context.request.user.username
+
+    @strawberry.field
+    def get_username(self, info) -> UserType:
+        auth_header = info.context.request.headers.get("Authorization", "")
+        if auth_header.startswith("Bearer "):
+            token = auth_header.split(" ")[1]
+        else:
+            raise Exception("Invalid Authorization header format.")
+
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            user_id = payload["user_id"]
+            user = User.objects.get(id=user_id)
+            return UserType(
+                id=user.id,
+                username=user.username,
+                email=user.email,
+                is_staff=user.is_staff,
+                is_active=user.is_active,
+                gender=user.gender,
+                date_joined=user.date_joined,
+            )
+        except jwt.ExpiredSignatureError:
+            print("JWT token has expired")
+        except jwt.InvalidTokenError:
+            print("Invalid JWT token")
+
+        return None
+
 
 @strawberry.type
 class Mutation:
@@ -32,11 +64,13 @@ class Mutation:
         email: str,
         password: str,
         gender: str,
+        username: str,
     ) -> UserType:
         user = User.objects.create_user(
             email=email,
             password=password,
             gender=gender,
+            username=username,
         )
         return user
 

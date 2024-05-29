@@ -9,6 +9,7 @@ from . import models
 class UserType:
     id: auto
     email: str
+    username: str
     is_staff: bool
     is_active: bool
     date_joined: str
