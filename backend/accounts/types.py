@@ -9,12 +9,11 @@ from . import models
 class UserType:
     id: auto
     email: str
-    first_name: str
-    last_name: str
     is_staff: bool
     is_active: bool
     date_joined: str
     gender: str
+
 
 @strawberry.type
 class LoginResponse:

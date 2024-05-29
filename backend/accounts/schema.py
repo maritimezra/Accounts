@@ -12,38 +12,17 @@ from django.contrib.auth import authenticate
 from django.conf import settings
 
 
-
 @strawberry.type
 class Query:
 
     @strawberry.field
-    @login_required  
+    @login_required
     def me(self, info) -> UserType:
         return info.context.request.user
 
     @strawberry.field
     def get_users(self) -> List[UserType]:
         return User.objects.all()
-
-    @strawberry.field
-    def get_user_with_id(self, id: str) -> List[UserType]:
-        return User.objects.filter(id=id)
-
-    @strawberry.field
-    def get_user_with_email(self, email: str) -> List[UserType]:
-        return User.objects.filter(email=email)
-
-    @strawberry.field
-    def get_user_with_first_name(self, first_name: str) -> List[UserType]:
-        return User.objects.filter(first_name=first_name)
-
-    @strawberry.field
-    def get_user_with_last_name(self, last_name: str) -> List[UserType]:
-        return User.objects.filter(last_name=last_name)
-
-    @strawberry.field
-    def get_user_with_phone_number(self, phone_number: str) -> List[UserType]:
-        return User.objects.filter(phone_number__iexact=str(phone_number))
 
 
 @strawberry.type
@@ -53,15 +32,11 @@ class Mutation:
         self,
         email: str,
         password: str,
-        first_name: str,
-        last_name: str,
         gender: str,
     ) -> UserType:
         user = User.objects.create(
             email=email,
             password=password,
-            first_name=first_name,
-            last_name=last_name,
             gender=gender,
         )
         return user
@@ -70,14 +45,10 @@ class Mutation:
     def update_user(
         self,
         email: str,
-        first_name: str,
-        last_name: str,
         gender: str,
     ) -> UserType:
         user = User.objects.get(email=email)
         user.email = email
-        user.first_name = first_name
-        user.last_name = last_name
         user.gender = gender
         user.save()
         return user
