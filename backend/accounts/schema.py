@@ -29,12 +29,11 @@ class Query:
 class Mutation:
     @strawberry.mutation
     def create_user(
-        self,
         email: str,
         password: str,
         gender: str,
     ) -> UserType:
-        user = User.objects.create(
+        user = User.objects.create_user(
             email=email,
             password=password,
             gender=gender,
@@ -42,27 +41,13 @@ class Mutation:
         return user
 
     @strawberry.mutation
-    def update_user(
-        self,
-        email: str,
-        gender: str,
-    ) -> UserType:
-        user = User.objects.get(email=email)
-        user.email = email
-        user.gender = gender
-        user.save()
-        return user
-
-    @strawberry.mutation
     def login(self, info, email: str, password: str) -> LoginResponse:
-        # Authenticate user
         user = authenticate(email=email, password=password)
 
         if user is not None and user.is_authenticated:
             print(f"Authenticated user: {user.email}")
             setattr(info.context.request, "user", user)
 
-            # Generate a JWT token with user information
             token_payload = {
                 "user_id": user.id,
                 "email": user.email,
@@ -71,7 +56,6 @@ class Mutation:
 
             return LoginResponse(success=True, token=token)
         else:
-            # Return error response if authentication fails
             print("Authentication failed")
             return LoginResponse(success=False, token=None)
 
@@ -81,17 +65,6 @@ class Mutation:
 
         if user:
             setattr(info.context.request, "revokeTokens", True)
-            return True
-        else:
-            return False
-
-    @strawberry.mutation
-    @login_required
-    def change_password(self, info, old_password: str, new_password: str) -> bool:
-        user = info.context.request.user
-        if user.check_password(old_password):
-            user.set_password(new_password)
-            user.save()
             return True
         else:
             return False
