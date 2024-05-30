@@ -24,10 +24,6 @@ class Query:
     def get_users(self) -> List[UserType]:
         return User.objects.all()
 
-    # @strawberry.field
-    # def get_username(self, info) -> str:
-    #     return info.context.request.user.username
-
     @strawberry.field
     def get_username(self, info) -> UserType:
         auth_header = info.context.request.headers.get("Authorization", "")
