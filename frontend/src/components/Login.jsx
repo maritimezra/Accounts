@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, gql } from '@apollo/client';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -12,6 +13,7 @@ const LOGIN_MUTATION = gql`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
